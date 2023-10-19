@@ -22,7 +22,10 @@ def draw_grid_line(ws):
 
 
 def adjust_width(ws):
-    pass
+    widths = {'A': 10, 'B': 20, 'C': 12, 'D': 12, 'E': 12,
+              'F': 12, 'G': 8, 'H': 8, 'I': 25, 'J': 27}
+    for col, width in widths.items():
+        ws.column_dimensions[col].width = width
 
 
 def set_styles(wb: Workbook):
@@ -37,5 +40,6 @@ def set_styles(wb: Workbook):
     for sheet in wb:
         set_font(sheet)
         draw_grid_line(sheet)
+        adjust_width(sheet)
 
     wb.save('test.xlsx')
