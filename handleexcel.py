@@ -1,4 +1,5 @@
-from openpyxl.styles import Font
+from openpyxl.styles import Font, Side, Border
+
 from openpyxl.workbook import Workbook
 
 
@@ -12,7 +13,12 @@ def set_font(ws):
 
 
 def draw_grid_line(ws):
-    pass
+    side = Side(style='thin', color='000000')
+    border = Border(top=side, right=side, bottom=side, left=side)
+
+    for row in ws:
+        for cell in row:
+            ws[cell.coordinate].border = border
 
 
 def adjust_width(ws):
