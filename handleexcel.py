@@ -1,8 +1,14 @@
+from openpyxl.styles import Font
 from openpyxl.workbook import Workbook
 
 
 def set_font(ws):
-    pass
+    font = Font(name='MS PGothic',
+                size=11)
+
+    for row in ws:
+        for cell in row:
+            ws[cell.coordinate].font = font
 
 
 def draw_grid_line(ws):
@@ -25,3 +31,5 @@ def set_styles(wb: Workbook):
     for sheet in wb:
         set_font(sheet)
         draw_grid_line(sheet)
+
+    wb.save('test.xlsx')

@@ -1,6 +1,7 @@
 import csv
 
 import pandas as pd
+from openpyxl.reader.excel import load_workbook
 
 
 def read_header(path='header'):
@@ -20,3 +21,7 @@ def write_excel(path, exam_list, departments):
             department_df = exam_list[exam_list["依頼科"] == department]
             new_df = department_df.reset_index()
             new_df.iloc[:, 2:].to_excel(writer, sheet_name=department)
+
+
+def open_excel(file):
+    return load_workbook(filename=file)
