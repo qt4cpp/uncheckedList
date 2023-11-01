@@ -15,9 +15,9 @@ def sort_list(df: pd.DataFrame):
     return df.sort_values(["依頼医", "検査日"])
 
 
-def get_unchecked_list(sort=True):
-    header = handlefile.read_header(path="header")
-    exam_list = handlefile.read_csv("data/1005.csv", filter_list=header)
+def get_unchecked_table(csv_path, header_path, sort=True):
+    header = handlefile.read_header(path=header_path)
+    exam_list = handlefile.read_csv(csv_path, filter_list=header)
     unchecked_index = get_unchecked_index(exam_list)
     unchecked_list = exam_list[unchecked_index]
     if sort:
