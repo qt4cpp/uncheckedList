@@ -36,6 +36,11 @@ class UncheckedList(tk.Frame):
         )
         self.csv_entry.delete(0, tk.END)
         self.csv_entry.insert(0, file_path)
+        print(self.csv_path)
+
+    @property
+    def csv_path(self):
+        return self.csv_entry.get()
 
 
 root = tk.Tk()
