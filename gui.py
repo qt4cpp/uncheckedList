@@ -62,6 +62,7 @@ class UncheckedList(tk.Frame):
             return
 
         self.excel_path = self.get_excel_path()
+        handlefile.sjis_to_utf8(self.csv_path)
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
