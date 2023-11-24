@@ -1,6 +1,7 @@
 import os.path
 import tkinter as tk
 import tkinter.filedialog
+import tkinter.messagebox
 
 import handlefile
 from handleexcel import set_styles
@@ -12,6 +13,7 @@ class UncheckedList(tk.Frame):
     def __init__(self, header_path, master=None):
         super().__init__(master)
         self.file_path = ""
+        self.excel_name = ""
         self.header_path = header_path
         self.frame = tk.Frame(master)
         self.frame.pack()
@@ -50,6 +52,10 @@ class UncheckedList(tk.Frame):
         return self.csv_entry.get()
 
     def output_unchecked_list(self):
+        if not os.path.exists(self.csv_path):
+            tk.messagebox.showinfo("", "ファイルが見つかりません。\n{}".format(self.csv_path))
+            return
+
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
