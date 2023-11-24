@@ -28,7 +28,7 @@ def adjust_width(ws):
         ws.column_dimensions[col].width = width
 
 
-def set_styles(wb: Workbook):
+def set_styles(wb: Workbook, file_path):
     """
     Set styles to excel file.
     1. Set a Font
@@ -42,4 +42,4 @@ def set_styles(wb: Workbook):
         draw_grid_line(sheet)
         adjust_width(sheet)
 
-    wb.save('test.xlsx')
+    wb.save(file_path)

@@ -13,7 +13,7 @@ class UncheckedList(tk.Frame):
     def __init__(self, header_path, master=None):
         super().__init__(master)
         self.file_path = ""
-        self.excel_name = ""
+        self.excel_path = ""
         self.header_path = header_path
         self.frame = tk.Frame(master)
         self.frame.pack()
@@ -51,19 +51,26 @@ class UncheckedList(tk.Frame):
     def csv_path(self):
         return self.csv_entry.get()
 
+    def get_excel_path(self):
+        base_name = os.path.basename(self.csv_path)
+        file_name_without_ext, _ = os.path.splitext(base_name)
+        return file_name_without_ext + ".xlsx"
+
     def output_unchecked_list(self):
         if not os.path.exists(self.csv_path):
             tk.messagebox.showinfo("", "ファイルが見つかりません。\n{}".format(self.csv_path))
             return
 
+        self.excel_path = self.get_excel_path()
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
         print('診療科取得完了')
 
         print('excelに保存する')
-        handlefile.write_excel('test.xlsx', unchecked_table, departments)
-        print('excelに保存完了')
-        wb = handlefile.open_excel('test.xlsx')
-        set_styles(wb)
+        handlefile.write_excel(self.excel_path, unchecked_table, departments)
+        print('excelに保存完了.\n{}'.format(self.excel_path))
+        wb = handlefile.open_excel(self.excel_path)
+        set_styles(wb, self.excel_path)
+        print('Style 適用')
 
