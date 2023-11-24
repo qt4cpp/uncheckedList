@@ -1,7 +1,5 @@
-import handlefile
 import tkinter as tk
-from handleexcel import set_styles
-from manage_examlist import get_departments_from_df, get_unchecked_table
+
 from gui import UncheckedList
 
 
