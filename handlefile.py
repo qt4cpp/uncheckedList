@@ -15,6 +15,13 @@ def read_csv(csv_path, filter_list):
     return df.loc[:, filter_list]
 
 
+def sjis_to_utf8(file_path):
+    with open(file_path, 'r', encoding='cp932') as file:
+        utf8_text = file.read().encode('utf-8')
+    with open(file_path, 'w') as file:
+        file.write(utf8_text.decode('utf-8'))
+
+
 def write_excel(path, exam_list, departments):
     with (pd.ExcelWriter(path, mode='w') as writer):
         for department in departments:
