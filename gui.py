@@ -56,13 +56,23 @@ class UncheckedList(tk.Frame):
         file_name_without_ext, _ = os.path.splitext(base_name)
         return file_name_without_ext + ".xlsx"
 
-    def output_unchecked_list(self):
+    def validate_input_file(self):
         if not os.path.exists(self.csv_path):
             tk.messagebox.showinfo("", "ファイルが見つかりません。\n{}".format(self.csv_path))
-            return
+            return False
 
+        with open(self.csv_path, 'r', encoding='utf-8') as file:
+            try:
+                file.read(100)
+            except UnicodeDecodeError:
+                handlefile.sjis_to_utf8(self.csv_path)
+                print("ファイルの文字コード変換")
+        return True
+
+    def output_unchecked_list(self):
+        if not self.validate_input_file():
+            return
         self.excel_path = self.get_excel_path()
-        handlefile.sjis_to_utf8(self.csv_path)
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
