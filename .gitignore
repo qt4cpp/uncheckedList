@@ -1,10 +1,8 @@
 /data/
-/.idea/misc.xml
-/.idea/modules.xml
+/build/
+/dist/
+/.idea/
 /Pipfile
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/readinglist.iml
-/.idea/vcs.xml
 /.idea/.gitignore
-/test.xlsx
-/~$test.xlsx
+*.xlsx
+*.spec

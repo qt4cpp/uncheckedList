@@ -1,4 +1,5 @@
 import os.path
+import sys
 import tkinter as tk
 import tkinter.filedialog
 import tkinter.messagebox
@@ -12,6 +13,9 @@ class UncheckedList(tk.Frame):
 
     def __init__(self, header_path, master=None):
         super().__init__(master)
+        #TODO: 現在のディレクトリを登録
+        #TODO: このディレクトリに基づいてheaderファイルを読み込む。
+        self.current_dir = sys.argv[0]
         self.file_path = ""
         self.excel_path = ""
         self.header_path = header_path
@@ -82,6 +86,6 @@ class UncheckedList(tk.Frame):
         handlefile.write_excel(self.excel_path, unchecked_table, departments)
         print('excelに保存完了.\n{}'.format(self.excel_path))
         wb = handlefile.open_excel(self.excel_path)
-        set_styles(wb, self.excel_path)
         print('Style 適用')
-
+        set_styles(wb, self.excel_path)
+        print('保存完了')
