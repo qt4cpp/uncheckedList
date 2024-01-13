@@ -9,7 +9,7 @@ import handlefile
 
 
 def read_header(path='header'):
-    with open(path) as f:
+    with open(path, encoding='utf-8') as f:
         lines = list(csv.reader(f, skipinitialspace=True))
     return lines[0]
 
@@ -24,10 +24,10 @@ def read_csv(csv_path, filter_list):
 
 
 def sjis_to_utf8(file_path):
-    with open(file_path, 'r', encoding='cp932') as file:
-        utf8_text = file.read().encode('utf-8')
-    with open(file_path, 'w') as file:
-        file.write(utf8_text.decode('utf-8'))
+    with open(file_path, 'r', encoding='cp932') as file_cp932:
+        text = file_cp932.read()
+    with open(file_path, 'w', encoding='utf-8') as file_utf8:
+        file_utf8.write(text)
 
 
 def write_excel(path, exam_list, departments):
