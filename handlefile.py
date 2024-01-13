@@ -15,11 +15,7 @@ def read_header(path='header'):
 
 
 def read_csv(csv_path, filter_list):
-    try:
-        df = pd.read_csv(csv_path)
-    except UnicodeDecodeError:
-        sjis_to_utf8(csv_path)
-        df = pd.read_csv(csv_path)
+    df = pd.read_csv(csv_path)
     return df.loc[:, filter_list]
 
 
