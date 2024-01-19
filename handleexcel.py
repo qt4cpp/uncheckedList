@@ -23,7 +23,7 @@ def draw_grid_line(ws):
 
 def adjust_width(ws):
     widths = {'A': 10, 'B': 20, 'C': 12, 'D': 12, 'E': 12,
-              'F': 12, 'G': 8, 'H': 8, 'I': 25, 'J': 27}
+              'F': 12, 'G': 8, 'H': 8, 'I': 25, 'J': 27, 'K': 20}
     for col, width in widths.items():
         ws.column_dimensions[col].width = width
 
