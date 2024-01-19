@@ -27,6 +27,7 @@ def sjis_to_utf8(file_path):
 
 
 def write_excel(path, exam_list, departments):
+    departments.sort()
     with (pd.ExcelWriter(path, mode='w') as writer):
         for department in departments:
             department_df = exam_list[exam_list["依頼科"] == department]
