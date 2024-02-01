@@ -1,11 +1,7 @@
 import csv
-import os
-import sys
 
 import pandas as pd
 from openpyxl.reader.excel import load_workbook
-
-import handlefile
 
 
 def read_header(path='header'):

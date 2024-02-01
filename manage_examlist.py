@@ -15,6 +15,16 @@ def sort_list(df: pd.DataFrame):
     return df.sort_values(["依頼医", "検査日"])
 
 
+def filter_need_reading(df: pd.DataFrame):
+    """要読影があるものだけにするフィルタリングする"""
+    pass
+
+
+def filter_departments(df: pd.DataFrame):
+    """診療科を限定する"""
+    pass
+
+
 def get_unchecked_table(csv_path, header_path, sort=True):
     header = handlefile.read_header(path=header_path)
     exam_list = handlefile.read_csv(csv_path, filter_list=header)
