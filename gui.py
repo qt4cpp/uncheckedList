@@ -6,7 +6,8 @@ import tkinter.messagebox
 
 import handlefile
 from handleexcel import set_styles
-from manage_examlist import get_unchecked_table, get_departments_from_df
+from manage_examlist import (get_unchecked_table, get_departments_from_df,
+                             filter_reading_required, filter_departments)
 
 
 class UncheckedList(tk.Frame):
@@ -89,3 +90,26 @@ class UncheckedList(tk.Frame):
         print('Style 適用')
         set_styles(wb, self.excel_path)
         print('保存完了')
+
+        required_reading_departments = self.get_required_reading_departments()
+        if required_reading_departments:
+            print("要読影のみ抽出する")
+            unchecked_table_with_required_reading = self.filter_require_reading(
+                unchecked_table, required_reading_departments)
+            unchecked_table = unchecked_table_with_required_reading
+            departments = required_reading_departments
+            print('excelに保存する')
+            handlefile.write_excel(self.excel_path, unchecked_table, departments)
+            print('excelに保存完了.\n{}'.format(self.excel_path))
+            wb = handlefile.open_excel(self.excel_path)
+            print('Style 適用')
+            set_styles(wb, self.excel_path)
+            print('保存完了')
+
+
+    def get_required_reading_departments(self):
+        # return None
+        return ["脳神経外科", "放射線科"]
+
+    def filter_require_reading(self, df, departments):
+        return filter_reading_required(filter_departments(df, departments))

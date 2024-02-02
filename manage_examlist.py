@@ -15,14 +15,16 @@ def sort_list(df: pd.DataFrame):
     return df.sort_values(["依頼医", "検査日"])
 
 
-def filter_need_reading(df: pd.DataFrame):
+def filter_reading_required(df: pd.DataFrame) -> pd.DataFrame:
     """要読影があるものだけにするフィルタリングする"""
-    pass
+    required_reading_df = df.dropna(subset=["要読影"])
+    return required_reading_df
 
 
-def filter_departments(df: pd.DataFrame):
+def filter_departments(df: pd.DataFrame, department_list) -> pd.DataFrame:
     """診療科を限定する"""
-    pass
+    filtered_df = df[df["依頼科"].isin(department_list)]
+    return filtered_df
 
 
 def get_unchecked_table(csv_path, header_path, sort=True):
