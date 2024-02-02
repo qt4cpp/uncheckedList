@@ -56,10 +56,10 @@ class UncheckedList(tk.Frame):
     def csv_path(self):
         return self.csv_entry.get()
 
-    def get_excel_path(self):
+    def get_excel_path(self, suffix=''):
         base_name = os.path.basename(self.csv_path)
         file_name_without_ext, _ = os.path.splitext(base_name)
-        return file_name_without_ext + ".xlsx"
+        return file_name_without_ext + suffix + ".xlsx"
 
     def validate_input_file(self):
         if not os.path.exists(self.csv_path):
@@ -99,6 +99,7 @@ class UncheckedList(tk.Frame):
             unchecked_table = unchecked_table_with_required_reading
             departments = required_reading_departments
             print('excelに保存する')
+            self.excel_path = self.get_excel_path("-要読影")
             handlefile.write_excel(self.excel_path, unchecked_table, departments)
             print('excelに保存完了.\n{}'.format(self.excel_path))
             wb = handlefile.open_excel(self.excel_path)
