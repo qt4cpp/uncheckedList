@@ -77,34 +77,35 @@ class UncheckedList(tk.Frame):
     def output_unchecked_list(self):
         if not self.validate_input_file():
             return
-        self.excel_path = self.get_excel_path()
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
         print('診療科取得完了')
-        self.save_excel(self.get_excel_path(), unchecked_table, departments)
 
         required_reading_departments = self.get_required_reading_departments()
         if required_reading_departments:
+            departments = list(set(departments) - set(required_reading_departments))
             print("要読影のみ抽出する")
             unchecked_table_with_required_reading = self.filter_require_reading(
                 unchecked_table, required_reading_departments)
             self.save_excel(self.get_excel_path("-要読影"), unchecked_table_with_required_reading,
                             required_reading_departments)
+            print("要読影のみ保存完了")
 
+        self.save_excel(self.get_excel_path(), unchecked_table, departments)
         print('保存完了')
 
     def save_excel(self, excel_path, df, dep):
         print('excelに保存する')
-        handlefile.write_excel(self.excel_path, df, dep)
+        handlefile.write_excel(excel_path, df, dep)
         print('excelに保存完了.\n{}'.format(excel_path))
         wb = handlefile.open_excel(excel_path)
         print('Style 適用')
-        handleexcel.set_styles(wb, self.excel_path)
+        handleexcel.set_styles(wb, excel_path)
 
     def get_required_reading_departments(self):
         # return None
-        return ["脳神経外科", "放射線科"]
+        return ["脳神経外科", "放射線科", "人間ドック科"]
 
     def filter_require_reading(self, df, departments):
         return filter_reading_required(filter_departments(df, departments))
