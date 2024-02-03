@@ -5,7 +5,7 @@ import tkinter.filedialog
 import tkinter.messagebox
 
 import handlefile
-from handleexcel import set_styles
+import handleexcel
 from manage_examlist import (get_unchecked_table, get_departments_from_df,
                              filter_reading_required, filter_departments)
 
@@ -82,31 +82,25 @@ class UncheckedList(tk.Frame):
         print('診療科取得')
         departments = get_departments_from_df(unchecked_table)
         print('診療科取得完了')
-
-        print('excelに保存する')
-        handlefile.write_excel(self.excel_path, unchecked_table, departments)
-        print('excelに保存完了.\n{}'.format(self.excel_path))
-        wb = handlefile.open_excel(self.excel_path)
-        print('Style 適用')
-        set_styles(wb, self.excel_path)
-        print('保存完了')
+        self.save_excel(self.get_excel_path(), unchecked_table, departments)
 
         required_reading_departments = self.get_required_reading_departments()
         if required_reading_departments:
             print("要読影のみ抽出する")
             unchecked_table_with_required_reading = self.filter_require_reading(
                 unchecked_table, required_reading_departments)
-            unchecked_table = unchecked_table_with_required_reading
-            departments = required_reading_departments
-            print('excelに保存する')
-            self.excel_path = self.get_excel_path("-要読影")
-            handlefile.write_excel(self.excel_path, unchecked_table, departments)
-            print('excelに保存完了.\n{}'.format(self.excel_path))
-            wb = handlefile.open_excel(self.excel_path)
-            print('Style 適用')
-            set_styles(wb, self.excel_path)
-            print('保存完了')
+            self.save_excel(self.get_excel_path("-要読影"), unchecked_table_with_required_reading,
+                            required_reading_departments)
 
+        print('保存完了')
+
+    def save_excel(self, excel_path, df, dep):
+        print('excelに保存する')
+        handlefile.write_excel(self.excel_path, df, dep)
+        print('excelに保存完了.\n{}'.format(excel_path))
+        wb = handlefile.open_excel(excel_path)
+        print('Style 適用')
+        handleexcel.set_styles(wb, self.excel_path)
 
     def get_required_reading_departments(self):
         # return None
