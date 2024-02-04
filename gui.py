@@ -14,8 +14,6 @@ class UncheckedList(tk.Frame):
 
     def __init__(self, header_path, master=None):
         super().__init__(master)
-        #TODO: 現在のディレクトリを登録
-        #TODO: このディレクトリに基づいてheaderファイルを読み込む。
         self.current_dir = sys.argv[0]
         self.file_path = ""
         self.excel_path = ""
@@ -54,14 +52,17 @@ class UncheckedList(tk.Frame):
 
     @property
     def csv_path(self):
+        """tk.Entryに含まれるcsvファイルへのパスを返す"""
         return self.csv_entry.get()
 
     def get_excel_path(self, suffix=''):
+        """csvファイルからexcelファイル名を作成する"""
         base_name = os.path.basename(self.csv_path)
         file_name_without_ext, _ = os.path.splitext(base_name)
         return file_name_without_ext + suffix + ".xlsx"
 
     def validate_input_file(self):
+        """入力するcsvファイルが有効なものかを確認する"""
         if not os.path.exists(self.csv_path):
             tk.messagebox.showinfo("", "ファイルが見つかりません。\n{}".format(self.csv_path))
             return False
@@ -75,6 +76,7 @@ class UncheckedList(tk.Frame):
         return True
 
     def output_unchecked_list(self):
+        """確認されていないデータをexcelファイルで保存する、操作関数"""
         if not self.validate_input_file():
             return
         unchecked_table = get_unchecked_table(self.csv_path, self.header_path, sort=True)
@@ -96,6 +98,7 @@ class UncheckedList(tk.Frame):
         print('保存完了')
 
     def save_excel(self, excel_path, df, dep):
+        """excelファイルで保存する"""
         print('excelに保存する')
         handlefile.write_excel(excel_path, df, dep)
         print('excelに保存完了.\n{}'.format(excel_path))
@@ -104,8 +107,10 @@ class UncheckedList(tk.Frame):
         handleexcel.set_styles(wb, excel_path)
 
     def get_required_reading_departments(self):
+        """要読影のみの診療科を返す"""
         # return None
         return ["脳神経外科", "放射線科", "人間ドック科"]
 
     def filter_require_reading(self, df, departments):
+        """要読影の診療科からデータを抽出して返す"""
         return filter_reading_required(filter_departments(df, departments))

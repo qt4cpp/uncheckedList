@@ -4,6 +4,7 @@ from openpyxl.workbook import Workbook
 
 
 def set_font(ws):
+    """excelファイルのフォントを設定する"""
     font = Font(name='MS PGothic',
                 size=11)
 
@@ -13,6 +14,7 @@ def set_font(ws):
 
 
 def draw_grid_line(ws):
+    """excelファイルの書式で罫線を設定する"""
     side = Side(style='thin', color='000000')
     border = Border(top=side, right=side, bottom=side, left=side)
 
@@ -22,6 +24,7 @@ def draw_grid_line(ws):
 
 
 def adjust_width(ws):
+    """excelファイルの列の幅を調節する"""
     widths = {'A': 10, 'B': 20, 'C': 12, 'D': 12, 'E': 12,
               'F': 12, 'G': 8, 'H': 8, 'I': 25, 'J': 27, 'K': 20}
     for col, width in widths.items():
